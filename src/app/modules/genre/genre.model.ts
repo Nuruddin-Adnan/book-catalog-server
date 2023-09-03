@@ -9,7 +9,7 @@ const GenreSchema = new Schema<IGenre, GenreModel>(
     },
     createdBy: {
       type: Types.ObjectId,
-      ref: 'User',
+      ref: 'Admin',
       required: true,
     },
   },

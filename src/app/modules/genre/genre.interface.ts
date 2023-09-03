@@ -1,10 +1,10 @@
 import { Model, Types } from 'mongoose';
-import { IUser } from '../user/user.interface';
+import { IAdmin } from '../admin/admin.interface';
 
 export type IGenre = {
   _id: Types.ObjectId;
   name: string;
-  createdBy: Types.ObjectId | IUser;
+  createdBy: Types.ObjectId | IAdmin;
 };
 
 export type GenreModel = Model<IGenre, Record<string, unknown>>;

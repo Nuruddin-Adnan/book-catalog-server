@@ -14,7 +14,7 @@ const updateGenreZodSchema = z.object({
   }),
 });
 
-export const UserValidation = {
+export const GenreValidation = {
   createGenreZodSchema,
   updateGenreZodSchema,
 };
