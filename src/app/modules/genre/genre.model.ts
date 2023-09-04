@@ -5,12 +5,12 @@ const GenreSchema = new Schema<IGenre, GenreModel>(
   {
     name: {
       type: String,
+      unique: true,
       required: true,
     },
     createdBy: {
       type: Types.ObjectId,
       ref: 'Admin',
-      required: true,
     },
   },
   {

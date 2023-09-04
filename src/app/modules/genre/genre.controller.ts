@@ -8,7 +8,10 @@ import { IGenre } from './genre.interface';
 
 const createGenre = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id;
-  const result = await GenreService.createGenre(userId, req.body);
+  const payload = req.body;
+  payload.createdBy = userId;
+
+  const result = await GenreService.createGenre(userId, payload);
 
   sendResponse<IGenre>(res, {
     statusCode: httpStatus.OK,

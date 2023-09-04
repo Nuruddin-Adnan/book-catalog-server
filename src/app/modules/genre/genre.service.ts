@@ -11,7 +11,6 @@ const createGenre = async (id: string, payload: IGenre): Promise<IGenre> => {
   if (!id || !payload) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Invalid User or Data');
   }
-
   const result = await Genre.create(payload);
   return result;
 };
@@ -60,7 +59,7 @@ const updateGenre = async (
   });
 
   if (!result) {
-    throw new ApiError(httpStatus.NOT_FOUND, 'Ienre not found');
+    throw new ApiError(httpStatus.NOT_FOUND, 'Genre not found');
   }
 
   return result;
