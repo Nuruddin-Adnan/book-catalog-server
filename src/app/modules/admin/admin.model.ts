@@ -41,6 +41,9 @@ const adminSchema = new Schema<IAdmin, AdminModel>(
       unique: true,
       required: true,
     },
+    imgURL: {
+      type: String,
+    },
     address: {
       type: String,
       required: true,

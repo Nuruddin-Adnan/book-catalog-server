@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
+/* eslint-disable no-unused-vars */
 import { Request, Response } from 'express';
 import httpStatus from 'http-status';
 import catchAsync from '../../../shared/catchAsync';
@@ -8,7 +10,7 @@ import { IBook } from './book.interface';
 
 const createBook = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id;
-  const payload = req.body;
+  const { reviews, ...payload } = req.body;
   payload.author = userId;
 
   const result = await BookService.createBook(userId, payload);
@@ -17,6 +19,23 @@ const createBook = catchAsync(async (req: Request, res: Response) => {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Book create successfully!',
+    data: result,
+  });
+});
+
+const createReview = catchAsync(async (req: Request, res: Response) => {
+  const id = req.params.id;
+  const userId = req.user?._id;
+  const review = req.body;
+  review.reviewedBy = userId;
+  review.reviewdate = new Date();
+
+  const result = await BookService.createReview(id, review);
+
+  sendResponse<IBook>(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Book review successfully!',
     data: result,
   });
 });
@@ -57,7 +76,7 @@ const updateBook = catchAsync(async (req: Request, res: Response) => {
   const userId = req.user?._id;
   const { id } = req.params;
 
-  const updatedData = req.body;
+  const { reviews, ...updatedData } = req.body;
   const result = await BookService.updateBook(id, userId, updatedData);
 
   sendResponse<IBook>(res, {
@@ -81,6 +100,7 @@ const deleteBook = catchAsync(async (req: Request, res: Response) => {
 });
 
 export const BookController = {
+  createReview,
   createBook,
   getAllBooks,
   getSingleBook,

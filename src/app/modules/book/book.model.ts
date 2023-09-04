@@ -14,7 +14,7 @@ const BookSchema = new Schema<IBook, BookModel>(
     },
     author: {
       type: Types.ObjectId,
-      ref: 'User',
+      ref: 'User', // Reference to the User model
     },
     genre: {
       type: String,
@@ -27,6 +27,25 @@ const BookSchema = new Schema<IBook, BookModel>(
     imgURL: {
       type: String,
     },
+    reviews: [
+      {
+        reviewedBy: {
+          type: Types.ObjectId,
+          ref: 'User', // Reference to the User model
+        },
+        message: {
+          type: String,
+          required: true,
+        },
+        ratings: {
+          type: Number,
+          required: true,
+        },
+        reviewdate: {
+          type: Date,
+        },
+      },
+    ],
   },
   {
     timestamps: true,

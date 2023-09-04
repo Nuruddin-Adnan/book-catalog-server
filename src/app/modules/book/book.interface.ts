@@ -9,6 +9,23 @@ export type IBook = {
   genre: string;
   publicationDate: Date;
   imgURL?: string;
+  reviews?:
+    | [
+        {
+          reviewedBy: Types.ObjectId | IUser;
+          message: string;
+          ratings: number;
+          reviewdate: Date;
+        },
+      ]
+    | undefined;
+};
+
+export type IReviewData = {
+  reviewedBy: Types.ObjectId | IUser;
+  message: string;
+  ratings: number;
+  reviewdate: Date;
 };
 
 export type BookModel = Model<IBook, Record<string, unknown>>;

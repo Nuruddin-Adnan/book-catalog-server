@@ -15,6 +15,12 @@ router.post(
 );
 
 router.patch(
+  '/review/:id',
+  auth(ENUM_USER_ROLE.GENERAL_USER),
+  BookController.createReview,
+);
+
+router.patch(
   '/:id',
   auth(ENUM_USER_ROLE.GENERAL_USER),
   validateRequest(BookValidation.updateBookZodSchema),

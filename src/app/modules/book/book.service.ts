@@ -3,7 +3,7 @@ import ApiError from '../../../errors/ApiError';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IFilters, IQueries } from '../../../interfaces/queryFilters';
 import searcher from '../../../shared/searcher';
-import { IBook } from './book.interface';
+import { IBook, IReviewData } from './book.interface';
 import { Book } from './book.model';
 import { bookSearchableFields } from './book.constant';
 
@@ -13,6 +13,28 @@ const createBook = async (id: string, payload: IBook): Promise<IBook> => {
   }
   const result = await Book.create(payload);
   return result;
+};
+
+const createReview = async (
+  id: string,
+  reviews: IReviewData,
+): Promise<IBook> => {
+  if (!id || !reviews) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Invalid User or Data');
+  }
+  const book = await Book.findById(id);
+
+  if (!book) {
+    throw new Error('Book not found');
+  }
+
+  // Create a new review object and push it into the "reviews" array
+  book.reviews!.push(reviews);
+
+  // Save the updated book document
+  await book.save();
+
+  return book;
 };
 
 const getAllBooks = async (
@@ -46,7 +68,11 @@ const getAllBooks = async (
 };
 
 const getSingleBook = async (id: string): Promise<IBook | null> => {
-  const result = await Book.findById(id).populate('author');
+  const result = await Book.findById(id).populate('author').populate({
+    path: 'reviews.reviewedBy',
+    model: 'User',
+    select: 'name imgURL',
+  });
   return result;
 };
 
@@ -94,6 +120,7 @@ const deleteBook = async (
 
 export const BookService = {
   createBook,
+  createReview,
   getAllBooks,
   getSingleBook,
   updateBook,

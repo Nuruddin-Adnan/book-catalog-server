@@ -11,6 +11,7 @@ export type IAdmin = {
   };
   phoneNumber: string;
   email: string;
+  imgURL: string;
   address: string;
 };
 
