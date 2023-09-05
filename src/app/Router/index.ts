@@ -5,6 +5,7 @@ import { UserRoutes } from '../modules/user/user.route';
 import { GenreRoutes } from '../modules/genre/genre.route';
 import { BookRoutes } from '../modules/book/book.route';
 import { WishlistRoutes } from '../modules/wishlist/wishlist.route';
+import { MyReadinglistRoutes } from '../modules/myReadingList/myReadingList.route';
 
 const router = express.Router();
 
@@ -32,6 +33,10 @@ const moduleRoutes = [
   {
     path: '/wishlists',
     route: WishlistRoutes,
+  },
+  {
+    path: '/my-reading-lists',
+    route: MyReadinglistRoutes,
   },
 ];
 
