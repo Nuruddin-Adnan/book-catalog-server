@@ -58,9 +58,34 @@ const getAllMyReadinglists = async (
 };
 
 const getMyReadinglists = async (
-  id: string,
+  userId: string,
 ): Promise<IMyReadingList[] | null> => {
-  const result = await MyReadingList.find({ user: id }).populate('book');
+  const result = await MyReadingList.find({ user: userId }).populate('book');
+  return result;
+};
+
+const updateMyReadinglist = async (
+  id: string,
+  userId: string,
+  payload: Partial<IMyReadingList>,
+): Promise<IMyReadingList | null> => {
+  const findMyReadingList = await MyReadingList.findById(id);
+
+  if (findMyReadingList && findMyReadingList?.user.toString() !== userId) {
+    throw new ApiError(
+      httpStatus.NOT_FOUND,
+      'You are not authorized to update this reading list',
+    );
+  }
+
+  const result = await MyReadingList.findOneAndUpdate({ _id: id }, payload, {
+    new: true,
+  });
+
+  if (!result) {
+    throw new ApiError(httpStatus.NOT_FOUND, 'Reading list not found');
+  }
+
   return result;
 };
 
@@ -73,7 +98,7 @@ const deleteMyReadinglist = async (
   if (findMyReadingList && findMyReadingList?.user.toString() !== userId) {
     throw new ApiError(
       httpStatus.NOT_FOUND,
-      'You are not authorized to delete this my reading list',
+      'You are not authorized to delete this reading list',
     );
   }
 
@@ -85,5 +110,6 @@ export const MyReadinglistService = {
   createMyReadinglist,
   getAllMyReadinglists,
   getMyReadinglists,
+  updateMyReadinglist,
   deleteMyReadinglist,
 };

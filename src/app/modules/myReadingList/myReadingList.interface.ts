@@ -6,7 +6,7 @@ export type IMyReadingList = {
   _id: Types.ObjectId;
   book: Types.ObjectId | IBook;
   user: Types.ObjectId | IUser;
-  status: 'reading' | 'plane to read' | 'finished reading';
+  status: 'reading' | 'plan to read' | 'finished reading';
 };
 
 export type MyReadingListModel = Model<IMyReadingList, Record<string, unknown>>;

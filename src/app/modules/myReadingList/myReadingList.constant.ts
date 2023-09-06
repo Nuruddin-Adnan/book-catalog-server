@@ -1,6 +1,6 @@
 export const myReadingListstatus = [
   'reading',
-  'plane to read',
+  'plan to read',
   'finished reading',
 ];
 

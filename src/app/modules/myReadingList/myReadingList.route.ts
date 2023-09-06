@@ -15,7 +15,7 @@ router.post(
 );
 
 router.get(
-  '/my-reading-list',
+  '/my-reading-lists',
   auth(ENUM_USER_ROLE.GENERAL_USER),
   MyReadinglistController.getMyReadinglists,
 );
