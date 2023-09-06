@@ -3,37 +3,38 @@ import ApiError from '../../../errors/ApiError';
 import { IGenericResponse } from '../../../interfaces/common';
 import { IFilters, IQueries } from '../../../interfaces/queryFilters';
 import searcher from '../../../shared/searcher';
-import { IWishlist } from './myReadingList.interface';
-import { Wishlist } from './myReadingList.model';
+import { IMyReadingList } from './myReadingList.interface';
+import { MyReadingList } from './myReadingList.model';
+import { myReadingListSearchableFields } from './myReadingList.constant';
 
-const addToWishlist = async (
+const createMyReadinglist = async (
   userId: string,
-  payload: IWishlist,
-): Promise<IWishlist> => {
+  payload: IMyReadingList,
+): Promise<IMyReadingList> => {
   if (!userId || !payload) {
     throw new ApiError(httpStatus.NOT_FOUND, 'Invalid User or Data');
   }
 
-  const findWishlist = await Wishlist.findOne({
+  const findMyReadingList = await MyReadingList.findOne({
     user: userId,
     book: payload.book,
   });
 
-  if (findWishlist) {
-    throw new ApiError(httpStatus.IM_USED, 'Already added to wishlist');
+  if (findMyReadingList) {
+    throw new ApiError(httpStatus.IM_USED, 'Already added to my reading list');
   }
-  const result = await Wishlist.create(payload);
+  const result = await MyReadingList.create(payload);
   return result;
 };
 
-const getAllWishlists = async (
+const getAllMyReadinglists = async (
   filters: IFilters,
   queries: IQueries,
-): Promise<IGenericResponse<IWishlist[]>> => {
-  const conditions = searcher(filters, []);
+): Promise<IGenericResponse<IMyReadingList[]>> => {
+  const conditions = searcher(filters, myReadingListSearchableFields);
   const { limit = 0, skip, fields, sort } = queries;
 
-  const resultQuery = Wishlist.find(conditions)
+  const resultQuery = MyReadingList.find(conditions)
     .skip(skip as number)
     .select(fields as string)
     .sort(sort)
@@ -41,7 +42,7 @@ const getAllWishlists = async (
 
   const [result, total] = await Promise.all([
     resultQuery.exec(),
-    Wishlist.countDocuments(conditions),
+    MyReadingList.countDocuments(conditions),
   ]);
 
   const page = Math.ceil(total / limit);
@@ -56,31 +57,33 @@ const getAllWishlists = async (
   };
 };
 
-const myWishlists = async (id: string): Promise<IWishlist[] | null> => {
-  const result = await Wishlist.find({ user: id }).populate('book');
+const getMyReadinglists = async (
+  id: string,
+): Promise<IMyReadingList[] | null> => {
+  const result = await MyReadingList.find({ user: id }).populate('book');
   return result;
 };
 
-const removeFromWishlist = async (
+const deleteMyReadinglist = async (
   id: string,
   userId: string,
-): Promise<IWishlist | null> => {
-  const findWishlist = await Wishlist.findById(id);
+): Promise<IMyReadingList | null> => {
+  const findMyReadingList = await MyReadingList.findById(id);
 
-  if (findWishlist && findWishlist?.user.toString() !== userId) {
+  if (findMyReadingList && findMyReadingList?.user.toString() !== userId) {
     throw new ApiError(
       httpStatus.NOT_FOUND,
-      'You are not authorized to delete the wishlist',
+      'You are not authorized to delete this my reading list',
     );
   }
 
-  const result = await Wishlist.findOneAndDelete({ _id: id });
+  const result = await MyReadingList.findOneAndDelete({ _id: id });
   return result;
 };
 
 export const MyReadinglistService = {
-  addToWishlist,
-  getAllWishlists,
-  myWishlists,
-  removeFromWishlist,
+  createMyReadinglist,
+  getAllMyReadinglists,
+  getMyReadinglists,
+  deleteMyReadinglist,
 };

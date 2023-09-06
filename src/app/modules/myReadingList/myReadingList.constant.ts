@@ -3,3 +3,5 @@ export const myReadingListstatus = [
   'plane to read',
   'finished reading',
 ];
+
+export const myReadingListSearchableFields = ['status'];

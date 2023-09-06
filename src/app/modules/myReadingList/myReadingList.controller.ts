@@ -32,7 +32,7 @@ const getAllMyReadinglists = catchAsync(async (req: Request, res: Response) => {
     req,
   );
 
-  const result = await MyReadinglistService.getAllWishlists(
+  const result = await MyReadinglistService.getAllMyReadinglists(
     filters.filters,
     filters.queries,
   );
