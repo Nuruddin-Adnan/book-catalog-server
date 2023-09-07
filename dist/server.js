@@ -15,7 +15,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const mongoose_1 = __importDefault(require("mongoose"));
 const app_1 = __importDefault(require("./app"));
 const index_1 = __importDefault(require("./config/index"));
-// import { errorlogger, logger } from './shared/logger';
 process.on('uncaughtException', error => {
     // errorlogger.error(error);
     console.log(error);

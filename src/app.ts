@@ -17,9 +17,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use('/api/v1', routes);
 
 //Testing
-app.get('/', async (req: Request, res: Response) => {
-  res.send('Working Successfully');
-});
+// app.get('/', async (req: Request, res: Response) => {
+//   res.send('Working Successfully');
+// });
 
 //global error handler
 app.use(globalErrorHandler);

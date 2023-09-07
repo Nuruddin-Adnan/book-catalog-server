@@ -11,10 +11,9 @@ const handleCastError_1 = __importDefault(require("../../errors/handleCastError"
 const handleZodError_1 = __importDefault(require("../../errors/handleZodError"));
 // import { errorlogger } from '../../shared/logger';
 const globalErrorHandler = (error, req, res, next) => {
-    config_1.default.env === 'development'
-        ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
-        : // : errorlogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
-            console.log(`🐱‍🏍 globalErrorHandler ~~`, error);
+    // config.env === 'development'
+    //   ? console.log(`🐱‍🏍 globalErrorHandler ~~`, { error })
+    //   :  errorlogger.error(`🐱‍🏍 globalErrorHandler ~~`, error);
     let statusCode = 500;
     let message = 'Something went wrong !';
     let errorMessages = [];
