@@ -21,9 +21,7 @@ const createUserZodSchema = z.object({
     email: z.string({
       required_error: 'Email address is required',
     }),
-    address: z.string({
-      required_error: 'Address is required',
-    }),
+    address: z.string().optional(),
   }),
 });
 

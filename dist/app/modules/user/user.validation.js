@@ -23,9 +23,7 @@ const createUserZodSchema = zod_1.z.object({
         email: zod_1.z.string({
             required_error: 'Email address is required',
         }),
-        address: zod_1.z.string({
-            required_error: 'Address is required',
-        }),
+        address: zod_1.z.string().optional(),
     }),
 });
 const updateUserZodSchema = zod_1.z.object({
