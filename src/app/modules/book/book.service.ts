@@ -42,6 +42,7 @@ const getAllBooks = async (
   queries: IQueries,
 ): Promise<IGenericResponse<IBook[]>> => {
   const conditions = searcher(filters, bookSearchableFields);
+
   const { limit = 0, skip, fields, sort } = queries;
 
   const resultQuery = Book.find(conditions)

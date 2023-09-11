@@ -45,16 +45,14 @@ const getAllBooks = catchAsync(async (req: Request, res: Response) => {
     req.query as Record<string, string | undefined>,
     req,
   );
-
   const result = await BookService.getAllBooks(
     filters.filters,
     filters.queries,
   );
-
   sendResponse<IBook[]>(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Book retrieved successfully!',
+    message: 'books retrieved successfully !',
     meta: result.meta,
     data: result.data,
   });
