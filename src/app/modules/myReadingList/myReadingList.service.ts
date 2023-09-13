@@ -21,7 +21,7 @@ const createMyReadinglist = async (
   });
 
   if (findMyReadingList) {
-    throw new ApiError(httpStatus.IM_USED, 'Already added to my reading list');
+    throw new ApiError(httpStatus.CONFLICT, 'Already added to my reading list');
   }
   const result = await MyReadingList.create(payload);
   return result;

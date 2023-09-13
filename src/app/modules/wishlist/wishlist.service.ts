@@ -20,7 +20,7 @@ const addToWishlist = async (
   });
 
   if (findWishlist) {
-    throw new ApiError(httpStatus.IM_USED, 'Already added to wishlist');
+    throw new ApiError(httpStatus.CONFLICT, 'Already added to wishlist');
   }
   const result = await Wishlist.create(payload);
   return result;

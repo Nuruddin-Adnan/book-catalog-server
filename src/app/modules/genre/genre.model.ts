@@ -21,4 +21,6 @@ const GenreSchema = new Schema<IGenre, GenreModel>(
   },
 );
 
+GenreSchema.index({ name: 1 }, { unique: true });
+
 export const Genre = model<IGenre, GenreModel>('Genre', GenreSchema);

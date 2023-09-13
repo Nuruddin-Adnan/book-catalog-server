@@ -49,7 +49,8 @@ const getAllBooks = async (
     .skip(skip as number)
     .select(fields as string)
     .sort(sort)
-    .limit(limit as number);
+    .limit(limit as number)
+    .populate('author');
 
   const [result, total] = await Promise.all([
     resultQuery.exec(),
