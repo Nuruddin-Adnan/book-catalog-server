@@ -6,6 +6,8 @@ import searcher from '../../../shared/searcher';
 import { IBook, IReviewData } from './book.interface';
 import { Book } from './book.model';
 import { bookSearchableFields } from './book.constant';
+import { Wishlist } from '../wishlist/wishlist.model';
+import { MyReadingList } from '../myReadingList/myReadingList.model';
 
 const createBook = async (id: string, payload: IBook): Promise<IBook> => {
   if (!id || !payload) {
@@ -41,9 +43,18 @@ const getAllBooks = async (
   filters: IFilters,
   queries: IQueries,
 ): Promise<IGenericResponse<IBook[]>> => {
-  const conditions = searcher(filters, bookSearchableFields);
+  const { limit = 0, skip, fields, sort, searchFields } = queries;
 
-  const { limit = 0, skip, fields, sort } = queries;
+  // searchable field set
+  let searchFieldsArray;
+
+  if (searchFields) {
+    searchFieldsArray = searchFields?.split(' ');
+  } else {
+    searchFieldsArray = bookSearchableFields;
+  }
+
+  const conditions = searcher(filters, searchFieldsArray!);
 
   const resultQuery = Book.find(conditions)
     .skip(skip as number)
@@ -117,6 +128,8 @@ const deleteBook = async (
   }
 
   const result = await Book.findOneAndDelete({ _id: id });
+  await Wishlist.deleteMany({ book: id });
+  await MyReadingList.deleteMany({ book: id });
   return result;
 };
 

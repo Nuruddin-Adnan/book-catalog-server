@@ -8,6 +8,7 @@ export type IFilters = {
 
 export type IQueries = {
   fields?: string;
+  searchFields?: string;
   sort?: string;
   skip?: number;
   limit?: number;

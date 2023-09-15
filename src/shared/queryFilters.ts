@@ -9,7 +9,13 @@ const queryFilters = (
   const queries: IQueries = {};
 
   // sort, page, limit -> exclude
-  const excludeFields: string[] = ['sort', 'page', 'limit', 'fields'];
+  const excludeFields: string[] = [
+    'sort',
+    'page',
+    'limit',
+    'fields',
+    'searchFields',
+  ];
   excludeFields.forEach((field: string) => delete filters[field]);
 
   // gt, gte, lt, lte
@@ -21,9 +27,18 @@ const queryFilters = (
 
   filters = JSON.parse(filtersString);
 
+  // Fields that want to show or hide
   if (req.query.fields) {
     const fields: string = (req.query.fields as string).split(',').join(' ');
     queries.fields = fields;
+  }
+
+  // Fields that need to be search
+  if (req.query.searchFields) {
+    const searchFields: string = (req.query.searchFields as string)
+      .split(',')
+      .join(' ');
+    queries.searchFields = searchFields;
   }
 
   if (req.query.sort) {
