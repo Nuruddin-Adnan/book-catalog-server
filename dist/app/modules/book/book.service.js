@@ -18,6 +18,8 @@ const ApiError_1 = __importDefault(require("../../../errors/ApiError"));
 const searcher_1 = __importDefault(require("../../../shared/searcher"));
 const book_model_1 = require("./book.model");
 const book_constant_1 = require("./book.constant");
+const wishlist_model_1 = require("../wishlist/wishlist.model");
+const myReadingList_model_1 = require("../myReadingList/myReadingList.model");
 const createBook = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
     if (!id || !payload) {
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'Invalid User or Data');
@@ -40,13 +42,22 @@ const createReview = (id, reviews) => __awaiter(void 0, void 0, void 0, function
     return book;
 });
 const getAllBooks = (filters, queries) => __awaiter(void 0, void 0, void 0, function* () {
-    const conditions = (0, searcher_1.default)(filters, book_constant_1.bookSearchableFields);
-    const { limit = 0, skip, fields, sort } = queries;
+    const { limit = 0, skip, fields, sort, searchFields } = queries;
+    // searchable field set
+    let searchFieldsArray;
+    if (searchFields) {
+        searchFieldsArray = searchFields === null || searchFields === void 0 ? void 0 : searchFields.split(' ');
+    }
+    else {
+        searchFieldsArray = book_constant_1.bookSearchableFields;
+    }
+    const conditions = (0, searcher_1.default)(filters, searchFieldsArray);
     const resultQuery = book_model_1.Book.find(conditions)
         .skip(skip)
         .select(fields)
         .sort(sort)
-        .limit(limit);
+        .limit(limit)
+        .populate('author');
     const [result, total] = yield Promise.all([
         resultQuery.exec(),
         book_model_1.Book.countDocuments(conditions),
@@ -88,6 +99,8 @@ const deleteBook = (id, userId) => __awaiter(void 0, void 0, void 0, function* (
         throw new ApiError_1.default(http_status_1.default.NOT_FOUND, 'You are not authorized to delete the book');
     }
     const result = yield book_model_1.Book.findOneAndDelete({ _id: id });
+    yield wishlist_model_1.Wishlist.deleteMany({ book: id });
+    yield myReadingList_model_1.MyReadingList.deleteMany({ book: id });
     return result;
 });
 exports.BookService = {

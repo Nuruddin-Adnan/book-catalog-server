@@ -14,7 +14,8 @@ const BookSchema = new mongoose_1.Schema({
     },
     author: {
         type: mongoose_1.Types.ObjectId,
-        ref: 'User', // Reference to the User model
+        ref: 'User',
+        required: true,
     },
     genre: {
         type: String,

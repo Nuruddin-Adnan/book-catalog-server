@@ -27,7 +27,7 @@ const createMyReadinglist = (userId, payload) => __awaiter(void 0, void 0, void 
         book: payload.book,
     });
     if (findMyReadingList) {
-        throw new ApiError_1.default(http_status_1.default.IM_USED, 'Already added to my reading list');
+        throw new ApiError_1.default(http_status_1.default.CONFLICT, 'Already added to my reading list');
     }
     const result = yield myReadingList_model_1.MyReadingList.create(payload);
     return result;

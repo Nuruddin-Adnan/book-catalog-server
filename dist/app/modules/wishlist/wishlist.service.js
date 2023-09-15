@@ -26,7 +26,7 @@ const addToWishlist = (userId, payload) => __awaiter(void 0, void 0, void 0, fun
         book: payload.book,
     });
     if (findWishlist) {
-        throw new ApiError_1.default(http_status_1.default.IM_USED, 'Already added to wishlist');
+        throw new ApiError_1.default(http_status_1.default.CONFLICT, 'Already added to wishlist');
     }
     const result = yield wishlist_model_1.Wishlist.create(payload);
     return result;

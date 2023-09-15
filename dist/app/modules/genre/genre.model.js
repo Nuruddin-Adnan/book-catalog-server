@@ -18,4 +18,5 @@ const GenreSchema = new mongoose_1.Schema({
         virtuals: true,
     },
 });
+GenreSchema.index({ name: 1 }, { unique: true });
 exports.Genre = (0, mongoose_1.model)('Genre', GenreSchema);
