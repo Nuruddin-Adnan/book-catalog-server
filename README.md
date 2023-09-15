@@ -1,4 +1,27 @@
 
+# Bookcat server
+
+This is a Book catalog backend  made for assignment 5 programmin hero
+
+
+## Live Api Link
+
+[https://book-catalog-server-rho.vercel.app/](https://book-catalog-server-rho.vercel.app//)
+
+
+## Features
+
+* User can Login and logout
+* Anyone can see the the books and details of the book with filter and search
+* Authenticate user can add new book by clicking add new book button 
+* User can delete and update him/her book
+* User can add book to wishlist and my reading list
+* User can remove book from wishlist
+* User can remove book from my reading list and update the status of my reading list
+
+
+
+
 
 ## Installation
 
@@ -19,25 +42,7 @@ settings.json (vs code settings)
 }
 ```
     
-## Environment Variables
 
-To run this project, you will need to add the following environment variables to your .env file
-
-`NODE_ENV=development`
-
-`PORT=5000`
-
-`DATABASE_URL=mongodb://127.0.0.1:27017/test`
-
-`BCRYPT_SALT_ROUNDS=12`
-
-`JWT_SECRET= 'very-secret'`
-
-`JWT_EXPIRES_IN=1d`
-
-`JWT_REFRESH_SECRET='very-refresh-secret'`
-
-`JWT_REFRESH_EXPIRES_IN=365d`
 
 
 ## API Reference
@@ -72,6 +77,39 @@ To run this project, you will need to add the following environment variables to
   POST api/v1/admins/refresh-token generate a new refresh token
   GET api/v1/admins/my-profile Admin cab see personal profile
   PATCH api/v1/admins/my-profile Admin can update the profile
-  DELETE api/v1/admins/${id} super_admin can delete the admin
+  DELETE api/v1/admins/:id super_admin can delete the admin
 ```
+
+#### Book
+
+```json
+  POST api/v1/books/ create new book
+  GET api/v1/books/ get the books
+  GEt api/v1/books?search=sometext&searchFields=somefields&limit=10 Filter and sorting
+  PATCH api/v1/books/review/:id give a review by logied in user
+  PATCH api/v1/books/:id update book info by authenticate user
+  DELETE api/v1/books/:id Delete a book by authenticate user
+```
+
+#### Wishlist
+
+```json
+  POST api/v1/wishlists/ user can add book into there wishlist
+  GET api/v1/wishlists/my-wishlists get specific user wishlists
+  DELETE api/v1/wishlists/:id Delete a wishlist by authenticate user
+```
+
+#### MyReadinglist
+
+```json
+  POST api/v1/my-reading-lists/ user can add book into there reading-list
+  GET api/v1/my-reading-lists/my-reading-lists get specific user reading-lists
+  PATCH api/v1/my-reading-lists/:id Update the status of  reading-lists by authenticate user
+  DELETE api/v1/my-reading-lists/:id Delete book from reading-lists by authenticate user
+```
+
+
+## Author
+
+ [https://github.com/Nuruddin-Adnan](https://github.com/Nuruddin-Adnan)
 
